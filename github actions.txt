@@ -1,0 +1,18 @@
+setup github actions
+
+In one server with the app of git installed run the following
+
+npx create-react-app test
+create repository in gitbhub
+In the options of git add the aws credentials
+git remote add origin https://github.com/crobayo/flugel/test.git 
+create a new director
+mkdir .github/
+mkdir .github/workflows/
+vi .github/worflows/test.yml
+
+file test.yml attached
+
+git add .
+git commit -n "add workflow file"
+git push origin -u master
