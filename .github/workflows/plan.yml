@@ -1,4 +1,4 @@
-name: 'Test_Terraform'
+name: 'Plan_Terraform'
 on:
   push:
     branches:
@@ -14,7 +14,10 @@ jobs:
       - name: Setup Terraform CLI
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.2.5     
+          terraform_version: 1.2.5
+      - name: Terraform Init
+        id: init
+        run: terraform init     
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
