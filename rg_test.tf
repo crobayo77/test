@@ -8,6 +8,6 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg" {
 
-  name     =     "pruebas-cris"
-location = "eastus"
+  name     = "pruebas-cris"
+  location = "eastus"
 }
