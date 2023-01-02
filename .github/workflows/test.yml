@@ -1,27 +1,33 @@
-name: Test Flugel
-on: 
+
+name: 'Test_Terraform'
+on:
   push:
     branches:
-       - main
-  pull_request:      
+      - main
+  pull_request:
 jobs:
-  go-tests:
-    name: Run Go Test Flugel
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-go@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
         with:
-          go-version: 1.13
-      - uses: hashicorp/action-terraform@1
-        with:
-          terraform_version: 0.12.21
-      - name: Download Go Modules
-        working-directory: /home/crobayo/test
-        run: go mod download
-      - name: Run Go Tests
-        working-directory: /home/crobayo/test
-        run: go test -v -tags=unit
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         # terraform_version: 0.13.0
+        cli_config_credentials_token: ${{ secrets.TF_SECRET }}
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+      # - name: Terraform Plan
+      #   id: plan
+      #   if: github.event_name == 'pull_request'
+      #   run: terraform plan -no-color -input=false
+      #   continue-on-error: true
